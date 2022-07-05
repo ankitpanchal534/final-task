@@ -1,0 +1,12 @@
+.ques-box {
+  box-shadow: 0px 2px 6px lightgray;
+  padding: 25px;
+  width: 500px;
+  word-wrap: break-word;
+}
+h4 {
+  cursor: pointer;
+}
+h4:hover {
+  box-shadow: 0px 2px 6px lightgray;
+}

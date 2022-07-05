@@ -1,0 +1,9 @@
+.home {
+  display: flex;
+  justify-content: space-evenly;
+}
+.nxt-btn {
+  background-color: blue;
+  color: white;
+  padding: 5px;
+}
