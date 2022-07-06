@@ -24,31 +24,32 @@ export default function Quiz() {
   }, []);
 
   function checkAnswer(answer, selected) {
-    setTime(10);
     if (!attempted.includes(selected)) {
       if (selected === answer.correctAnswer) {
         setCorrect(correct + 1);
         alert("Your Answer was correct");
         setattempted([...attempted, selected]);
+        getData();
       } else {
         setinCorrect(incorrect + 1);
         alert("Your Answer was Incorrect");
         setattempted([...attempted, selected]);
+        getData();
       }
     } else {
       alert("Already Answered");
     }
   }
 
-  const timeoutFunction = setTimeout(() => {
-    clearInterval(intervalFunction);
-  }, 10000);
+  // const timeoutFunction = setTimeout(() => {
+  //   clearInterval(intervalFunction);
+  // }, 10000);
 
-  const intervalFunction = setInterval(() => {
-    if (time > 0) {
-      setTime(time - 1);
-    }
-  }, 1000);
+  // const intervalFunction = setInterval(() => {
+  //   if (time > 0) {
+  //     setTime(time - 1);
+  //   }
+  // }, 1000);
 
   return (
     <div>
@@ -86,10 +87,7 @@ export default function Quiz() {
         </div>
         <Result attempted={attempted} correct={correct} incorrect={incorrect} />
       </div>
-      <button
-        className="nxt-btn"
-        onClick={count < 10 ? getData : alert("Last Question")}
-      >
+      <button className="nxt-btn" onClick={count < 10 ? getData : " "}>
         Next Question
       </button>
     </div>
