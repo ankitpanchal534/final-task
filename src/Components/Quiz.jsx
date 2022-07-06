@@ -11,7 +11,11 @@ export default function Quiz() {
   const [incorrect, setinCorrect] = useState(0);
   const [attempted, setattempted] = useState([]);
   const [time, setTime] = useState(10);
+  const [status, setStatus] = useState(true);
+
+  // manage new questions and next question
   function getData() {
+    setStatus(true);
     if (count < 10) {
       fetch("https://the-trivia-api.com/api/questions?limit=1")
         .then((res) => res.json())
@@ -19,15 +23,25 @@ export default function Quiz() {
           setQuestions(data);
           setCount(count + 1);
         });
+      setTimeout(quizTimer, 10000);
     } else {
       alert("Quiz Finished ! Check your Score");
     }
   }
+  // showing question for first time
   useEffect(() => {
     getData();
   }, []);
 
+  // timer for timeout after 10 seconds
+  const quizTimer = () => {
+    alert("Time out for this question ");
+    setStatus(false);
+  };
+
+  // function for setting value to correct or incorrect and attempted question
   function checkAnswer(answer, selected) {
+    clearTimeout(quizTimer);
     if (!attempted.includes(selected)) {
       if (selected === answer.correctAnswer) {
         setCorrect(correct + 1);
@@ -44,17 +58,16 @@ export default function Quiz() {
       alert("Already Answered");
     }
   }
-
-  // const timeoutFunction = setTimeout(() => {
-  //   clearInterval(intervalFunction);
-  // }, 10000);
-
-  // const intervalFunction = setInterval(() => {
-  //   if (time > 0) {
-  //     setTime(time - 1);
+  // Timer Part
+  // let decby = 1;
+  // var questionTimer = setInterval(function () {
+  //   if (time <= 1) {
+  //     clearInterval(questionTimer);
   //   }
+  //   setTime(10 - decby);
+  //   decby = decby + 1;
   // }, 1000);
-
+  // return part
   return (
     <div>
       <div className="ques-box">
@@ -67,8 +80,11 @@ export default function Quiz() {
                   Q.{count} {item.question}
                 </h3>
                 <div>
-                  <span>Options:</span>
+                  {/* <span>Options:</span> */}
+
                   <br />
+                  {status ? "" : <h5>Correct Answer is :</h5>}
+
                   <h4
                     onClick={(answer, selected) =>
                       checkAnswer(item, item.correctAnswer)
@@ -76,14 +92,18 @@ export default function Quiz() {
                   >
                     {item.correctAnswer}
                   </h4>
-                  {item.incorrectAnswers.map((incitem, i) => (
-                    <h4
-                      key={i}
-                      onClick={(answer, selected) => checkAnswer(item, incitem)}
-                    >
-                      {incitem}
-                    </h4>
-                  ))}
+                  {status
+                    ? item.incorrectAnswers.map((incitem, i) => (
+                        <h4
+                          key={i}
+                          onClick={(answer, selected) =>
+                            checkAnswer(item, incitem)
+                          }
+                        >
+                          {incitem}
+                        </h4>
+                      ))
+                    : ""}
                 </div>
               </div>
             </div>
