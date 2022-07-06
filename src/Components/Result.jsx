@@ -5,6 +5,7 @@ export default function Result(props) {
     <div className="ques-box">
       {" "}
       <h2>Result</h2>
+      <h1>{props.correct} / 10 </h1>
       <div>
         <h3> Correct Answer :{props.correct}</h3>
         <h3> Incorrect Answer :{props.incorrect}</h3>
