@@ -12,12 +12,16 @@ export default function Quiz() {
   const [attempted, setattempted] = useState([]);
   const [time, setTime] = useState(10);
   function getData() {
-    fetch("https://the-trivia-api.com/api/questions?limit=1")
-      .then((res) => res.json())
-      .then((data) => {
-        setQuestions(data);
-        setCount(count + 1);
-      });
+    if (count < 10) {
+      fetch("https://the-trivia-api.com/api/questions?limit=1")
+        .then((res) => res.json())
+        .then((data) => {
+          setQuestions(data);
+          setCount(count + 1);
+        });
+    } else {
+      alert("Quiz Finished ! Check your Score");
+    }
   }
   useEffect(() => {
     getData();
@@ -87,7 +91,7 @@ export default function Quiz() {
         </div>
         <Result attempted={attempted} correct={correct} incorrect={incorrect} />
       </div>
-      <button className="nxt-btn" onClick={count < 10 ? getData : " "}>
+      <button className="nxt-btn" onClick={getData}>
         Next Question
       </button>
     </div>
